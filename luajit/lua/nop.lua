@@ -12,20 +12,20 @@ local nopFfi = setmetatable({
     end
 }, {
     __index = function(self, key)
-        print('call ffi.' .. key)
+        print('call ffi.' .. tostring(key))
         return function() end
     end
 })
 
 package = setmetatable({}, {
     __index = function(self, key)
-        print('call package.' .. key)
+        print('call package.' .. tostring(key))
         return function() end 
     end
 })
 
 require = function (lib)
-	print('call require ' .. lib)
+	print('call require ' .. tostring(lib))
 
 	if lib == 'ffi' then
 		return nopFfi
@@ -34,14 +34,14 @@ end
 
 os = setmetatable({}, {
     __index = function(self, key)
-        print('call os.' .. key)
+        print('call os.' .. tostring(key))
         return function() end 
     end
 })
 
 io = setmetatable({}, {
     __index = function(self, key)
-        print('call io.' .. key)
+        print('call io.' .. tostring(key))
         return function() end 
     end
 })
@@ -73,18 +73,18 @@ loadstring = function(code)
 end
 
 loadfile = function(filename)
-    print('call loadfile ' .. filename)
+    print('call loadfile ' .. tostring(filename))
 	return function () end
 end
 
 dofile = function(filename)
-    print('call dofile ' .. filename)
+    print('call dofile ' .. tostring(filename))
 	return function () end
 end
 
 setmetatable(_G, {
     __index = function (self, key)
-        print('call ' .. key)
+        print('call ' .. tostring(key))
         return function () end
     end
 })
