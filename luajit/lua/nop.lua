@@ -55,8 +55,8 @@ debug = setmetatable({
 })
 
 string = setmetatable({
-    dump = function ()
-        return error()
+    dump = function(...)
+        return error('unable to dump given function')
     end
 }, {
     __index = string
@@ -81,6 +81,24 @@ dofile = function(filename)
     print('call dofile ' .. tostring(filename))
 	return function () end
 end
+
+thisScript = setmetatable({
+    path = 'script.luac'
+}, {
+    __index = function(self, key)
+        print('call script.this.' .. tostring(key))
+        return function() end
+    end
+})
+
+script = setmetatable({
+    this = thisScript,
+}, {
+    __index = function(self, key)
+        print('call script.' .. tostring(key))
+        return function() end
+    end
+})
 
 setmetatable(_G, {
     __index = function (self, key)
